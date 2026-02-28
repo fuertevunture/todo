@@ -27,6 +27,8 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
 }
 
 .main {
@@ -79,9 +81,39 @@ body {
 }
 
 .header-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .header-title_logo {
   aspect-ratio: 1;
   width: 80px;
+}
+
+.header-title_title {
+  color: hsla(250, 70%, 60%, 0.8);
+  font-size: 28px;
+  font-weight: bold;
+  font-family: "Arial Narrow";
+}
+
+.header-theme {
+  width: 50px;
+  height: 50px;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.header-theme:hover {
+  cursor: pointer;
+  background: azure;
+}
+
+.header-theme-mode {
+  display: block;
+}
+
+.hidden_header-theme-mode {
+  display: none;
 }
