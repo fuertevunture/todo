@@ -1,0 +1,87 @@
+/*样式初始化*/
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+}
+
+/*项目全局结构*/
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100vh;
+}
+
+.header {
+  flex: 0 0 15vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.main {
+  flex: 1 1 auto;
+}
+
+.footer {
+  flex: 0 0 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+/*根据屏幕尺寸对main区域做响应式布局*/
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+@media screen and (min-width: 1024px) {
+  .main {
+    display: grid;
+    grid-template-areas:
+      "user control"
+      "classify tasks"
+      "showboard tasks";
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: repeat(3, 1fr);
+  }
+  .user {
+    grid-area: user;
+  }
+  .classify {
+    grid-area: classify;
+  }
+  .showboard {
+    grid-area: showboard;
+  }
+  .control {
+    grid-area: control;
+  }
+  .tasks {
+    grid-area: tasks;
+  }
+  section {
+    background: red;
+  }
+}
+
+.header-title {
+}
+
+.header-title_logo {
+  aspect-ratio: 1;
+  width: 80px;
+}

@@ -1,10 +1,53 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--  todo  meta的viewport属性待测试效果-->
+    <meta name="author" content="lvkun" />
+    <meta name="keywords" content="任务管理,工具,清单,记录" />
+    <meta
+      name="description"
+      content="这是一个任务清单，用来记录需要完成的任务和最新进度"
+    />
+    <title>kun to do list</title>
+    <link rel="stylesheet" href="./main.css" />
+    <script src="./main.js" defer></script>
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-title">
+        <img class="header-title_logo" src="https://iconfont.alicdn.com/p/illus/preview_image/phTAGGGUxgDX/ff9408fc-69b8-4455-91e2-ac080ec3c82c.png"></img>
+        <div class="header-title_title"></div>
+      </div>
+      <div class="header-theme"></div>
+    </header>
+    <main class="main">
+      <section class="user">
+        <div class="user-avatar"></div>
+        <div class="user-name"></div>
+      </section>
+      <nav class="classify">
+        <!--    todo   数组形式——是采用直接html渲染，还是数组加载生成-->
+        <div class="classify-all"></div>
+        <div class="classify-doing"></div>
+        <div class="classify-done"></div>
+      </nav>
+      <section class="showboard">
+        <div class="showboard-total"></div>
+        <div class="showboard-info"></div>
+      </section>
+      <section class="control">
+        <div class="control-title"></div>
+        <div class="control-search"></div>
+        <div class="control-create"></div>
+      </section>
+      <section class="tasks">
+        <div class="tasks-void"></div>
+      </section>
+    </main>
+    <footer class="footer">
+      <p>© 2026 Kun To-Do. 保持专注，逐个完成。</p>
+    </footer>
+  </body>
 </html>
