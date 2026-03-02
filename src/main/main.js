@@ -21,6 +21,36 @@ themeModeDomList.forEach((themeMode) => {
 });
 
 //todo 主题切换功能函数
-function changeThemeMode() {
+function changeThemeMode() {}
 
-}
+//main区域
+//user部分
+const userAvatarImgDom = document.querySelector(".user-avatar_img");
+const userAvatarInputDom = document.querySelector(".user-avatar_input");
+
+userAvatarInputDom.addEventListener("change", (e) => {
+  const userAvatarFiles = e.target.files;
+  
+  // 检查是否选择了文件
+  if (userAvatarFiles && userAvatarFiles.length > 0) {
+    const file = userAvatarFiles[0];
+    
+    // 检查文件类型是否为图片
+    if (file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      
+      // 读取文件完成后，更新头像图片
+      reader.onload = (event) => {
+        userAvatarImgDom.src = event.target.result;
+        userAvatarImgDom.style.width = "100%";
+        userAvatarImgDom.style.height = "100%";
+        userAvatarImgDom.style.objectFit = "cover";
+      };
+      
+      // 读取文件内容
+      reader.readAsDataURL(file);
+    } else {
+      console.warn("请选择图片文件");
+    }
+  }
+});

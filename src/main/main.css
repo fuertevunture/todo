@@ -47,7 +47,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  /*横轴位置由子元素自己去决定*/
+  /*align-items: center;*/
 }
 
 @media screen and (min-width: 1024px) {
@@ -78,6 +79,11 @@ body {
   section {
     background: red;
   }
+}
+
+/*header区域*/
+.header {
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.1);
 }
 
 .header-title {
@@ -116,4 +122,44 @@ body {
 
 .hidden_header-theme-mode {
   display: none;
+}
+
+/*main区域*/
+/*user部分*/
+.user {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+}
+
+.user-avatar {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: hsla(250, 70%, 60%, 0.8);
+  cursor: pointer;
+}
+
+.user-avatar_img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: aqua;
+}
+
+.user-avatar_input {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.user-name {
+  color: hsla(220, 15%, 50%, 0.8);
+  font-size: 24px;
+  font-weight: bold;
 }
