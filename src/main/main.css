@@ -186,3 +186,22 @@ body {
 .selected_classify-type icon {
   fill: hsla(250, 100%, 100%, 1);
 }
+
+.showboard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  width: 90%;
+  height: 160px;
+  margin: 20px auto;
+  border-radius: 10px;
+  color: white;
+  background-color: hsla(250, 70%, 60%, 0.8);
+}
+
+.showboard-total {
+  font-weight: bold;
+  font-size: 52px;
+}
