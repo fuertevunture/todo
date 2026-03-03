@@ -163,3 +163,26 @@ body {
   font-size: 24px;
   font-weight: bold;
 }
+
+/*分类控制栏部分*/
+.classify {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.classify-type {
+  padding: 12px 16px;
+  border-radius: 12px;
+  color: hsla(250, 20%, 60%, 0.8);
+  cursor: pointer;
+}
+
+.selected_classify-type {
+  color: hsla(250, 100%, 100%, 1);
+  background-color: hsla(239, 84%, 67%, 0.9);
+}
+
+.selected_classify-type icon {
+  fill: hsla(250, 100%, 100%, 1);
+}

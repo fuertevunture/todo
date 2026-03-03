@@ -30,15 +30,15 @@ const userAvatarInputDom = document.querySelector(".user-avatar_input");
 
 userAvatarInputDom.addEventListener("change", (e) => {
   const userAvatarFiles = e.target.files;
-  
+
   // 检查是否选择了文件
   if (userAvatarFiles && userAvatarFiles.length > 0) {
     const file = userAvatarFiles[0];
-    
+
     // 检查文件类型是否为图片
     if (file.type.startsWith("image/")) {
       const reader = new FileReader();
-      
+
       // 读取文件完成后，更新头像图片
       reader.onload = (event) => {
         userAvatarImgDom.src = event.target.result;
@@ -46,7 +46,7 @@ userAvatarInputDom.addEventListener("change", (e) => {
         userAvatarImgDom.style.height = "100%";
         userAvatarImgDom.style.objectFit = "cover";
       };
-      
+
       // 读取文件内容
       reader.readAsDataURL(file);
     } else {
@@ -54,3 +54,22 @@ userAvatarInputDom.addEventListener("change", (e) => {
     }
   }
 });
+
+//classify部分
+const classifyTypeDomList = Array.from(
+  document.querySelectorAll(".classify-type"),
+);
+let selectedClassifyTypeDom = document.querySelector(".selected_classify-type");
+
+classifyTypeDomList.forEach((classifyType) => {
+  classifyType.addEventListener("click", (e) => {
+    if (selectedClassifyTypeDom) {
+      selectedClassifyTypeDom.classList.remove("selected_classify-type");
+    }
+    classifyType.classList.add("selected_classify-type");
+    selectedClassifyTypeDom = classifyType;
+  });
+});
+
+//todo 列表过滤函数
+function filterTaskList() {}
