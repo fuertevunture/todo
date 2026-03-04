@@ -85,3 +85,20 @@ const taskList = [];
 const showboardTotalNum = document.querySelector(".showboard-total");
 // 统计卡片的数据
 showboardTotalNum.textContent = String(showedTaskList.length);
+
+//搜索区域
+const controlSearchDom = document.querySelector(".control-search");
+const controlSearchInputDom = document.querySelector(".control-search_input");
+let searchContent = "";
+
+controlSearchInputDom.addEventListener("focus", (e) => {
+  controlSearchDom.classList.add("active_control-search");
+});
+controlSearchInputDom.addEventListener("blur", (e) => {
+  controlSearchDom.classList.remove("active_control-search");
+});
+
+controlSearchInputDom.addEventListener("input", (e) => {
+  searchContent = e.target.value;
+  console.log(searchContent);
+});
