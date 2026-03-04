@@ -16,12 +16,17 @@ themeModeDomList.forEach((themeMode) => {
     }
     themeMode.classList.add("hidden_header-theme-mode");
     hiddenThemeModeDom = themeMode;
+    changeThemeMode(themeMode.dataset.mode);
     console.log(themeMode);
   });
 });
 
 //todo 主题切换功能函数
-function changeThemeMode() {}
+const rootDom = document.querySelector(":root");
+function changeThemeMode(theme) {
+  rootDom.className = "";
+  rootDom.classList.add(`theme-${theme}`);
+}
 
 //main区域
 //user部分
