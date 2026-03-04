@@ -102,3 +102,12 @@ controlSearchInputDom.addEventListener("input", (e) => {
   searchContent = e.target.value;
   console.log(searchContent);
 });
+
+const controlCreateNewDom = document.querySelector(".control-create-new");
+const controlCreateCardDom = document.querySelector(".control-create-card");
+
+controlCreateNewDom.addEventListener("click", (e) => {
+  controlCreateCardDom.classList.toggle("active_control-create-card");
+});
+
+//新任务区域

@@ -231,6 +231,14 @@ body {
   padding: 0 36px;
 }
 
+.control {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 20px;
+  background: #f9f9f9;
+}
+
 .control-title {
   font-size: 36px;
 }
@@ -246,6 +254,7 @@ body {
   padding: 10px;
   border: 1px solid #dddddd;
   border-radius: 8px;
+  background: var(--theme-color);
 }
 
 .control-search_input {
@@ -256,4 +265,96 @@ body {
 
 .active_control-search {
   outline: solid 3px hsla(250, 70%, 60%, 0.3);
+}
+
+.control-create {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
+  background: var(--theme-color);
+}
+
+.control-create-new {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+  width: 100%;
+  height: 48px;
+  border-radius: 10px;
+  color: white;
+  background: hsla(250, 70%, 60%, 0.8);
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.control-create-new:hover {
+  background: hsla(250, 90%, 60%, 1);
+  transform: translateY(-6px);
+}
+
+.control-create-card {
+  display: none;
+}
+
+.active_control-create-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 16px 0;
+  border-radius: 10px;
+  border: 1px solid #dddddd;
+}
+
+.control-create-card-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 80%;
+  height: 48px;
+  padding: 10px;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+}
+
+.active_control-create-card-content {
+  outline: solid 3px hsla(250, 70%, 60%, 0.3);
+}
+
+.control-create-card-content_input {
+  border: none;
+  outline: none;
+}
+
+.control-create-card-manipulate {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 16px;
+  width: 80%;
+}
+
+.control-create-card-manipulate-cancel,
+.control-create-card-manipulate-add {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 48px;
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid hsla(250, 70%, 60%, 0.3);
+  cursor: pointer;
+}
+
+.control-create-card-manipulate-add {
+  background: hsla(250, 70%, 60%, 0.8);
+  color: white;
 }
