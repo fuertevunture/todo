@@ -55,7 +55,7 @@ body {
 }
 
 .footer {
-  flex: 0 0 50px;
+  flex: 0 0 20px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -69,36 +69,6 @@ body {
   justify-content: flex-start;
   /*横轴位置由子元素自己去决定*/
   /*align-items: center;*/
-}
-
-@media screen and (min-width: 1024px) {
-  .main {
-    display: grid;
-    grid-template-areas:
-      "user control"
-      "classify tasks"
-      "showboard tasks";
-    grid-template-columns: 200px 1fr;
-    grid-template-rows: repeat(3, 1fr);
-  }
-  .user {
-    grid-area: user;
-  }
-  .classify {
-    grid-area: classify;
-  }
-  .showboard {
-    grid-area: showboard;
-  }
-  .control {
-    grid-area: control;
-  }
-  .tasks {
-    grid-area: tasks;
-  }
-  section {
-    background: red;
-  }
 }
 
 /*header区域*/
@@ -227,7 +197,7 @@ body {
 
 .control,
 .tasks {
-  background: var(--theme-color);
+  background: #f9f9f9;
   padding: 0 36px;
 }
 
@@ -236,7 +206,6 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   gap: 20px;
-  background: #f9f9f9;
 }
 
 .control-title {
@@ -357,4 +326,43 @@ body {
 .control-create-card-manipulate-add {
   background: hsla(250, 70%, 60%, 0.8);
   color: white;
+}
+
+/*任务列表区域*/
+.tasks {
+  min-height: 150px;
+}
+
+@media screen and (min-width: 1024px) {
+  .main {
+    display: grid;
+    grid-template-areas:
+      "user control"
+      "classify control"
+      "showboard tasks";
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: repeat(3, 1fr);
+  }
+  .user {
+    grid-area: user;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .classify {
+    grid-area: classify;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 0 10px;
+  }
+  .showboard {
+    grid-area: showboard;
+  }
+  .control {
+    grid-area: control;
+  }
+  .tasks {
+    grid-area: tasks;
+  }
 }
