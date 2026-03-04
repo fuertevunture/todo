@@ -301,6 +301,8 @@ body {
 .control-create-card-content_input {
   border: none;
   outline: none;
+  width: 90%;
+  font-size: 24px;
 }
 
 .control-create-card-manipulate {
@@ -331,8 +333,13 @@ body {
 /*任务列表区域*/
 .tasks {
   min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 
+/*媒体查询放置最下面*/
 @media screen and (min-width: 1024px) {
   .main {
     display: grid;

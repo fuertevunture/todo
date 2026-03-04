@@ -1,3 +1,9 @@
+// 全局数据部分
+const taskList = [];
+let showedTaskList = [];
+
+const selectedClassify = "";
+
 //header部分
 const themeModeDomList = Array.from(
   document.querySelectorAll(".header-theme-mode"),
@@ -79,7 +85,7 @@ classifyTypeDomList.forEach((classifyType) => {
 //todo 列表过滤函数
 function filterTaskList() {}
 
-const showedTaskList = [];
+let showedTaskList = [];
 const taskList = [];
 
 const showboardTotalNum = document.querySelector(".showboard-total");
@@ -111,3 +117,65 @@ controlCreateNewDom.addEventListener("click", (e) => {
 });
 
 //新任务区域
+const controlCreateCardContentDom = document.querySelector(
+  ".control-create-card-content",
+);
+const controlCreateCardContentInputDom = document.querySelector(
+  ".control-create-card-content_input",
+);
+
+let newTaskContent = "";
+
+controlCreateCardContentInputDom.addEventListener("focus", (e) => {
+  controlCreateCardContentDom.classList.toggle(
+    "active_control-create-card-content",
+  );
+});
+
+controlCreateCardContentInputDom.addEventListener("blur", (e) => {
+  controlCreateCardContentDom.classList.toggle(
+    "active_control-create-card-content",
+  );
+});
+
+controlCreateCardContentInputDom.addEventListener("input", (e) => {
+  newTaskContent = e.target.value;
+});
+
+const controlCreateCardManipulateCancelDom = document.querySelector(
+  ".control-create-card-manipulate-cancel",
+);
+const controlCreateCardManipulateAddDom = document.querySelector(
+  ".control-create-card-manipulate-add",
+);
+
+controlCreateCardManipulateCancelDom.addEventListener("click", (e) => {
+  controlCreateCardDom.classList.remove("active_control-create-card");
+  newTaskContent = "";
+});
+
+controlCreateCardManipulateAddDom.addEventListener("click", (e) => {});
+
+function addNewTask() {
+  const newTask = {};
+  newTask.content = newTaskContent;
+  newTask.createTime = new Date().toTimeString();
+  newTask.status = false;
+  taskList.push(newTask);
+}
+
+const taskContainerDom = document.querySelector(".tasks");
+//任务列表的渲染
+function renderTaskList() {}
+
+function computeShowTaskList() {
+  showedTaskList = taskList.filter((task) => {
+    let rightType = true;
+    if (selectedClassify === "doing") {
+      rightType = false !== task.status;
+    } else if (selectedClassify === "done") {
+      rightType = true !== task.status;
+    }
+    return rightType && task.content.startsWith(searchContent);
+  });
+}
