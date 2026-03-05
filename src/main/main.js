@@ -85,9 +85,6 @@ classifyTypeDomList.forEach((classifyType) => {
 //todo 列表过滤函数
 function filterTaskList() {}
 
-let showedTaskList = [];
-const taskList = [];
-
 const showboardTotalNum = document.querySelector(".showboard-total");
 // 统计卡片的数据
 showboardTotalNum.textContent = String(showedTaskList.length);
