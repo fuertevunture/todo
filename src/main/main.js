@@ -5,8 +5,26 @@
 const taskList = [];
 let showedTaskList = [];
 
+const filter = {
+  selectedClassify: "",
+  searchContent: "",
+};
+
 let selectedClassify = "";
 let searchContent = "";
+
+// 数据代理拦截
+let filterProxy = new Proxy(filter, {
+  get(target, key) {
+    return Reflect.get(...arguments);
+  },
+  set(target, key, value) {
+    target[key] = value;
+    computeShowTaskList();
+    renderTaskList();
+    return true;
+  },
+});
 
 /**
  * 数据关系梳理
@@ -35,7 +53,6 @@ themeModeDomList.forEach((themeMode) => {
     themeMode.classList.add("hidden_header-theme-mode");
     hiddenThemeModeDom = themeMode;
     changeThemeMode(themeMode.dataset.mode);
-    console.log(themeMode);
   });
 });
 
@@ -84,6 +101,7 @@ const classifyTypeDomList = Array.from(
 );
 let selectedClassifyTypeDom = document.querySelector(".selected_classify-type");
 
+// 类型切换
 classifyTypeDomList.forEach((classifyType) => {
   classifyType.addEventListener("click", (e) => {
     if (selectedClassifyTypeDom) {
@@ -91,6 +109,7 @@ classifyTypeDomList.forEach((classifyType) => {
     }
     classifyType.classList.add("selected_classify-type");
     selectedClassifyTypeDom = classifyType;
+    filterProxy.selectedClassify = classifyType.dataset.classify;
   });
 });
 
@@ -100,11 +119,16 @@ function filterTaskList() {}
 const showboardTotalNumDom = document.querySelector(".showboard-total");
 // 统计卡片的数据
 showboardTotalNumDom.textContent = String(showedTaskList.length);
+// 更新统计数据
+function updateShowboardTotalNum() {
+  showboardTotalNumDom.textContent = String(showedTaskList.length);
+}
 
 //搜索区域
 const controlSearchDom = document.querySelector(".control-search");
 const controlSearchInputDom = document.querySelector(".control-search_input");
 
+// 搜索栏的聚焦失焦样式变化
 controlSearchInputDom.addEventListener("focus", (e) => {
   controlSearchDom.classList.add("active_control-search");
 });
@@ -112,10 +136,18 @@ controlSearchInputDom.addEventListener("blur", (e) => {
   controlSearchDom.classList.remove("active_control-search");
 });
 
+// 搜索栏的输入
 controlSearchInputDom.addEventListener("input", (e) => {
-  searchContent = e.target.value;
-  console.log(searchContent);
+  filterProxy.searchContent = e.target.value;
 });
+
+// 搜索栏触发搜索
+controlSearchDom.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+  }
+});
+
+function searchTask() {}
 
 const controlCreateNewDom = document.querySelector(".control-create-new");
 const controlCreateCardDom = document.querySelector(".control-create-card");
@@ -159,32 +191,51 @@ const controlCreateCardManipulateAddDom = document.querySelector(
 
 controlCreateCardManipulateCancelDom.addEventListener("click", (e) => {
   controlCreateCardDom.classList.remove("active_control-create-card");
-  newTaskContent = "";
+  clearNewTask();
 });
 
+// 创建新任务
 controlCreateCardManipulateAddDom.addEventListener("click", (e) => {
   addNewTask();
-  showedTaskList = taskList;
+  clearNewTask();
+  // todo 任务列表的存储与渲染
+  // showedTaskList = taskList;
+  computeShowTaskList();
   renderTaskList();
 });
 
 function addNewTask() {
   const newTask = {};
+  const createTime = new Date();
   newTask.id = Date.now();
   newTask.content = newTaskContent;
-  newTask.createTime = new Date().toTimeString();
+  newTask.time =
+    createTime.getFullYear() +
+    "/" +
+    createTime.getMonth() +
+    "/" +
+    createTime.getDate();
   newTask.status = false;
   taskList.push(newTask);
+}
+
+// 新任务输入框的清空
+function clearNewTask() {
+  newTaskContent = "";
+  controlCreateCardContentInputDom.value = "";
 }
 
 const taskContainerDom = document.querySelector(".tasks");
 const tasksVoidDom = document.querySelector(".tasks-void");
 //任务列表的渲染
 function renderTaskList() {
+  // 先清空再放元素
   if (showedTaskList.length === 0) {
+    taskContainerDom.innerHTML = "";
     tasksVoidDom.style.display = "block";
   } else {
     tasksVoidDom.style.display = "none";
+    taskContainerDom.innerHTML = "";
 
     const fragment = document.createDocumentFragment();
     showedTaskList.forEach((task) => {
@@ -266,11 +317,11 @@ function renderTaskList() {
 function computeShowTaskList() {
   showedTaskList = taskList.filter((task) => {
     let rightType = true;
-    if (selectedClassify === "doing") {
-      rightType = false !== task.status;
-    } else if (selectedClassify === "done") {
-      rightType = true !== task.status;
+    if (filter.selectedClassify === "doing") {
+      rightType = task.status === false;
+    } else if (filter.selectedClassify === "done") {
+      rightType = task.status === true;
     }
-    return rightType && task.content.startsWith(searchContent);
+    return rightType && task.content.startsWith(filter.searchContent);
   });
 }

@@ -111,7 +111,10 @@
       <hr />
       <nav class="classify">
         <!--    todo   数组形式——是采用直接html渲染，还是数组加载生成-->
-        <div class="classify-all classify-type selected_classify-type">
+        <div
+          class="classify-all classify-type selected_classify-type"
+          data-classify="all"
+        >
           <svg
             t="1772552090082"
             class="icon"
@@ -129,7 +132,7 @@
           </svg>
           All Tasks
         </div>
-        <div class="classify-doing classify-type">
+        <div class="classify-doing classify-type" data-classify="doing">
           <svg
             t="1772552123589"
             class="icon"
@@ -147,7 +150,7 @@
           </svg>
           In Progress
         </div>
-        <div class="classify-done classify-type">
+        <div class="classify-done classify-type" data-classify="done">
           <svg
             t="1772552153967"
             class="icon"
