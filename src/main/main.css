@@ -379,11 +379,12 @@ body {
   cursor: pointer;
 }
 
-.doing_task-status icon {
+.doing_task .task-status_icon,
+.task .task-status_icon {
   display: none;
 }
 
-.done_task-status icon {
+.done_task .task-status_icon {
   display: block;
 }
 

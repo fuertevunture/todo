@@ -2,7 +2,7 @@
 // dom变量分布在区域
 
 // 全局数据部分
-const taskList = [];
+let taskList = [];
 let showedTaskList = [];
 
 const filter = {
@@ -13,6 +13,15 @@ const filter = {
 let selectedClassify = "";
 let searchContent = "";
 
+// 数据持久化
+window.addEventListener("load", () => {
+  const localTaskList = JSON.parse(localStorage.getItem("taskList"));
+  if (localTaskList) {
+    taskList.push(...localTaskList);
+  }
+  initData();
+});
+
 // 数据代理拦截
 let filterProxy = new Proxy(filter, {
   get(target, key) {
@@ -20,6 +29,33 @@ let filterProxy = new Proxy(filter, {
   },
   set(target, key, value) {
     target[key] = value;
+    computeShowTaskList();
+    renderTaskList();
+    return true;
+  },
+});
+
+window.addEventListener("unload", () => {
+  localStorage.setItem("taskList", JSON.stringify(taskList));
+});
+
+function initData() {
+  computeShowTaskList();
+  renderTaskList();
+}
+
+const taskListProxy = new Proxy(taskList, {
+  get(target, key) {
+    return Reflect.get(...arguments);
+  },
+  set(target, key, value) {
+    target[key] = value;
+    computeShowTaskList();
+    renderTaskList();
+    return true;
+  },
+  deleteProperty(target, p) {
+    delete target[p];
     computeShowTaskList();
     renderTaskList();
     return true;
@@ -113,9 +149,6 @@ classifyTypeDomList.forEach((classifyType) => {
   });
 });
 
-//todo 列表过滤函数
-function filterTaskList() {}
-
 const showboardTotalNumDom = document.querySelector(".showboard-total");
 // 统计卡片的数据
 showboardTotalNumDom.textContent = String(showedTaskList.length);
@@ -198,10 +231,6 @@ controlCreateCardManipulateCancelDom.addEventListener("click", (e) => {
 controlCreateCardManipulateAddDom.addEventListener("click", (e) => {
   addNewTask();
   clearNewTask();
-  // todo 任务列表的存储与渲染
-  // showedTaskList = taskList;
-  computeShowTaskList();
-  renderTaskList();
 });
 
 function addNewTask() {
@@ -212,11 +241,11 @@ function addNewTask() {
   newTask.time =
     createTime.getFullYear() +
     "/" +
-    createTime.getMonth() +
+    (createTime.getMonth() + 1) +
     "/" +
     createTime.getDate();
   newTask.status = false;
-  taskList.push(newTask);
+  taskListProxy.push(newTask);
 }
 
 // 新任务输入框的清空
@@ -241,11 +270,12 @@ function renderTaskList() {
     showedTaskList.forEach((task) => {
       const taskDiv = document.createElement("div");
       taskDiv.className = `task ${task.status ? "done_task" : "doing_task"}`;
+      taskDiv.setAttribute("uid", task.id);
       taskDiv.innerHTML = `
-          <div class="task-status >
+          <div class="task-status">
             <svg
               t="1772723834387"
-              class="icon"
+              class="task-status_icon"
               viewBox="0 0 1329 1024"
               version="1.1"
               xmlns="http://www.w3.org/2000/svg"
@@ -314,6 +344,77 @@ function renderTaskList() {
   }
 }
 
+const taskStatusDomList = Array.from(document.querySelectorAll(".task-status"));
+const taskControlEditDomList = Array.from(
+  document.querySelectorAll(".task-control-edit"),
+);
+const taskControlDeleteDomList = Array.from(
+  document.querySelectorAll(".task-control-delete"),
+);
+
+taskContainerDom.addEventListener("click", (e) => {
+  const taskCard = e.target.closest(".task");
+  if (!taskCard) return;
+
+  const taskId = Number(taskCard.getAttribute("uid"));
+
+  if (e.target.closest(".task-status")) {
+    toggleTaskStatus(taskId);
+    computeShowTaskList();
+    renderTaskList();
+  } else if (e.target.closest(".task-control-edit")) {
+    editTask(taskId);
+    computeShowTaskList();
+    renderTaskList();
+  } else if (e.target.closest(".task-control-delete")) {
+    deleteTask(taskId);
+  }
+});
+
+function toggleTaskStatus(taskId) {
+  taskListProxy.forEach((item) => {
+    if (item.id === taskId) {
+      item.status = !item.status;
+    }
+  });
+}
+
+function editTask(taskId) {
+  taskListProxy.forEach((item) => {
+    if (item.id === taskId) {
+      item.content = window.prompt("请输入新任务值", item.content);
+    }
+  });
+}
+
+function deleteTask(taskId) {
+  taskListProxy.forEach((item) => {
+    if (item.id === taskId) {
+      const index = taskList.indexOf(item);
+      taskListProxy.splice(index, 1);
+    }
+  });
+}
+
+taskStatusDomList.forEach((taskStatus) => {
+  taskStatus.addEventListener("click", (e) => {
+    console.log("taskStatus", taskStatus);
+    let taskId = e.target.parentNode.uid;
+  });
+});
+
+taskControlEditDomList.forEach((taskControlEdit) => {
+  taskControlEdit.addEventListener("click", (e) => {
+    let taskId = e.target.parentNode.uid;
+  });
+});
+
+taskControlDeleteDomList.forEach((taskControlDelete) => {
+  taskControlDelete.addEventListener("click", (e) => {
+    let taskId = e.target.parentNode.uid;
+  });
+});
+
 function computeShowTaskList() {
   showedTaskList = taskList.filter((task) => {
     let rightType = true;
@@ -322,6 +423,7 @@ function computeShowTaskList() {
     } else if (filter.selectedClassify === "done") {
       rightType = task.status === true;
     }
-    return rightType && task.content.startsWith(filter.searchContent);
+    let taskContent = task.content || "";
+    return rightType && taskContent.includes(filter.searchContent);
   });
 }
