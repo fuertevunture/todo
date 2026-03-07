@@ -39,9 +39,15 @@ window.addEventListener("unload", () => {
   localStorage.setItem("taskList", JSON.stringify(taskList));
 });
 
+setInterval(() => {
+  localStorage.setItem("taskList", JSON.stringify(taskList));
+}, 10000);
+
+// 初始化时的数据
 function initData() {
   computeShowTaskList();
   renderTaskList();
+  updateShowboardTotalNum();
 }
 
 const taskListProxy = new Proxy(taskList, {
@@ -52,12 +58,14 @@ const taskListProxy = new Proxy(taskList, {
     target[key] = value;
     computeShowTaskList();
     renderTaskList();
+    updateShowboardTotalNum();
     return true;
   },
   deleteProperty(target, p) {
     delete target[p];
     computeShowTaskList();
     renderTaskList();
+    updateShowboardTotalNum();
     return true;
   },
 });
@@ -154,7 +162,13 @@ const showboardTotalNumDom = document.querySelector(".showboard-total");
 showboardTotalNumDom.textContent = String(showedTaskList.length);
 // 更新统计数据
 function updateShowboardTotalNum() {
-  showboardTotalNumDom.textContent = String(showedTaskList.length);
+  let totalNum = 0;
+  taskList.forEach((task) => {
+    if (!task.status) {
+      totalNum++;
+    }
+  });
+  showboardTotalNumDom.textContent = String(totalNum);
 }
 
 //搜索区域
@@ -231,6 +245,7 @@ controlCreateCardManipulateCancelDom.addEventListener("click", (e) => {
 controlCreateCardManipulateAddDom.addEventListener("click", (e) => {
   addNewTask();
   clearNewTask();
+  controlCreateCardDom.classList.remove("active_control-create-card");
 });
 
 function addNewTask() {
@@ -358,14 +373,14 @@ taskContainerDom.addEventListener("click", (e) => {
 
   const taskId = Number(taskCard.getAttribute("uid"));
 
+  // proxy无法代理深层属性（数组元素的属性），因此这里需要手动触发
+  // 局部更新与全局渲染 ===》 修改哪一个更新渲染哪一个
   if (e.target.closest(".task-status")) {
     toggleTaskStatus(taskId);
-    computeShowTaskList();
-    renderTaskList();
+    initData();
   } else if (e.target.closest(".task-control-edit")) {
     editTask(taskId);
-    computeShowTaskList();
-    renderTaskList();
+    initData();
   } else if (e.target.closest(".task-control-delete")) {
     deleteTask(taskId);
   }

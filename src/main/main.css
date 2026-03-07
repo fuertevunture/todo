@@ -352,6 +352,7 @@ body {
 }
 
 .task {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -364,6 +365,32 @@ body {
   border: 1px solid #eee;
   background: var(--theme-color);
   box-shadow: 2px 2px 8px #dddddd;
+  transition: all 200ms ease;
+}
+
+.done_task {
+}
+
+.done_task::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0px;
+  width: 10px;
+  height: 100%;
+  border-radius: 10px 0 0 10px;
+  background: #1cbb48;
+}
+
+.done_task::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 5px;
+  width: 10px;
+  height: 100%;
+  border-radius: 10px 0 0 10px;
+  background: white;
 }
 
 .task-status {
@@ -399,6 +426,10 @@ body {
 .task-info-content {
   font-size: 28px;
   font-weight: bold;
+}
+
+.done_task .task-info-content {
+  text-decoration: line-through;
 }
 
 .done_task-info-content {
